@@ -32,7 +32,6 @@ public class Book {
 
     @ManyToOne
     @JoinColumn(name = "person_id", referencedColumnName = "id")
-    @Cascade(org.hibernate.annotations.CascadeType.ALL)
     private Person person;
 
     @Column(name = "taken_at")

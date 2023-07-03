@@ -23,7 +23,6 @@ public class Person {
     @Column(name = "year_of_birth")
     private int yearOfBirth;
 
-
     @OneToMany(mappedBy = "person")
     private List<Book> books;
 
