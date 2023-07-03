@@ -17,10 +17,8 @@ import javax.validation.Valid;
 @RequestMapping("/people")
 public class PeopleController {
 
-    //private final PersonDAO personDAO;
     private final PersonService personService;
     private final PersonValidator personValidator;
-
 
     @Autowired
     public PeopleController(PersonService personService, PersonValidator personValidator) {
