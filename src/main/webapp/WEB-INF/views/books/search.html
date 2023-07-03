@@ -1,10 +1,22 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>Search</title>
+    </head>
 
-</body>
+    <body>
+
+        <form th:method="GET" th:action="@{/books/{id}(id=${book.getId()})}" th:object="${book}">
+            <label for="title">Введите поисковый запрос: </label>
+            <input type="text" th:field="*{title}" id="title"/>
+            <div style="color:red" th:if="${#fields.hasErrors('title')}" th:errors="*{title}">
+                Title Error
+            </div>
+            <br/>
+            <input type="submit" value="Искать!"/>
+        </form>
+
+    </body>
 </html>
