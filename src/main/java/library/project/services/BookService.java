@@ -3,7 +3,6 @@ package library.project.services;
 import library.project.models.Book;
 import library.project.models.Person;
 import library.project.repositories.BookRepository;
-import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -86,5 +85,9 @@ public class BookService {
             return bookRepository.findAll(PageRequest.of(page, booksPerPage, Sort.by("year"))).getContent();
         else
             return bookRepository.findAll(PageRequest.of(page, booksPerPage)).getContent();
+    }
+
+    public List<Book> searchByTitle(String query) {
+        return bookRepository.findByTitleStartingWith(query);
     }
 }
