@@ -10,6 +10,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -60,23 +61,24 @@ public class BookService {
     }
 
     // Освобождает книгу (этот метод вызывается, когда человек возвращает книгу в библиотеку)
+    @Transactional
     public void release(int id) {
-        Optional<Book> book = bookRepository.findById(id);
-        if (book.isPresent()) {
-            Hibernate.initialize(book.get().getPerson());
-
-            book.get().setPerson(null);
-        }
+        bookRepository.findById(id).ifPresent(
+                book -> {
+                    book.setPerson(null);
+                    book.setTakenAt(null);
+                });
     }
 
     // Назначает книгу человеку (этот метод вызывается, когда человек забирает книгу из библиотеки)
+    @Transactional
     public void assign(int id, Person selectedPerson) {
-        Optional<Book> book = bookRepository.findById(id);
-        if (book.isPresent()) {
-            Hibernate.initialize(book.get().getPerson());
-
-            book.get().setPerson(selectedPerson);
-        }
+        bookRepository.findById(id).ifPresent(
+                book -> {
+                    book.setPerson(selectedPerson);
+                    book.setTakenAt(new Date()); // текущее время
+                }
+        );
     }
 
     public List<Book> findWithPagination(Integer page, Integer booksPerPage, boolean sortByYear) {
@@ -85,5 +87,4 @@ public class BookService {
         else
             return bookRepository.findAll(PageRequest.of(page, booksPerPage)).getContent();
     }
-
 }

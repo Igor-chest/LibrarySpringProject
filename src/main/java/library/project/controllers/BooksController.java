@@ -110,6 +110,7 @@ public class BooksController {
 
     @PatchMapping("/{id}/assign")
     public String assign(@PathVariable("id") int id, @ModelAttribute("person") Person selectedPerson) {
+        // У selectedPerson назначено только поле id, остальные поля - null
         bookService.assign(id, selectedPerson);
         return "redirect:/books/" + id;
     }
