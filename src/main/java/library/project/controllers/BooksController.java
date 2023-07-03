@@ -39,7 +39,8 @@ public class BooksController {
     }*/
 
     @GetMapping()
-    public String index(Model model, @RequestParam(value = "page", required = false) Integer page,
+    public String index(Model model,
+                        @RequestParam(value = "page", required = false) Integer page,
                         @RequestParam(value = "books_per_page", required = false) Integer booksPerPage,
                         @RequestParam(value = "sort_by_year", required = false) boolean sortByYear) {
 
@@ -113,5 +114,19 @@ public class BooksController {
         // У selectedPerson назначено только поле id, остальные поля - null
         bookService.assign(id, selectedPerson);
         return "redirect:/books/" + id;
+    }
+
+    @GetMapping("/search")
+    public String search() {
+
+        return "/books/search";
+    }
+
+    @PostMapping("/search")
+    public String searchAccess(Model model, @RequestParam("query") String query) {
+
+        model.addAttribute("books", bookService.searchByTitle(query));
+
+        return "/books/search";
     }
 }
