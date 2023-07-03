@@ -32,25 +32,24 @@ public class BooksController {
         this.bookService = bookService;
     }
 
-    @GetMapping()
+    /*@GetMapping()
     public String index(Model model) {
         model.addAttribute("books", bookService.findAll());
         return "books/index";
-    }
-
-    /*@GetMapping()
-    public String index(Model model,@RequestParam(value = "page", required = false) int page,
-                        @RequestParam(value = "books_per_page", required = false) int booksPerPage) {
-
-        List<Book> books = bookDAO.index();
-
-        for (int i = page*booksPerPage; i < page*(booksPerPage+1); i++) {
-            model.addAttribute(books.get(i));
-        }
-
-        //model.addAttribute("books", bookDAO.index());
-        return "books/index";
     }*/
+
+    @GetMapping()
+    public String index(Model model, @RequestParam(value = "page", required = false) Integer page,
+                        @RequestParam(value = "books_per_page", required = false) Integer booksPerPage,
+                        @RequestParam(value = "sort_by_year", required = false) boolean sortByYear) {
+
+        if (page == null || booksPerPage == null)
+            model.addAttribute("books", bookService.findAll(sortByYear)); // выдача всех книг
+        else
+            model.addAttribute("books", bookService.findWithPagination(page, booksPerPage, sortByYear));
+
+        return "books/index";
+    }
 
     @GetMapping("/{id}")
     public String show(@PathVariable("id") int id, Model model, @ModelAttribute("person") Person person) {
