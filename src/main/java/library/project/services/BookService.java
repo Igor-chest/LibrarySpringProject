@@ -75,7 +75,7 @@ public class BookService {
         bookRepository.findById(id).ifPresent(
                 book -> {
                     book.setPerson(selectedPerson);
-                    book.setTakenAt(new Date()); // текущее время
+                    book.setTakenAt(new Date()); // текущее время, 2008 - 1212121212121L
                 }
         );
     }
